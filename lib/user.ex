@@ -10,6 +10,10 @@ defmodule Twitter.User do
     GenServer.cast(locate(user), {:post, message, at})
   end
 
+  def post(user, from, message, at) do
+    GenServer.cast(locate(user), {:post, from, message, at})
+  end
+
   def read(user, at \\ now) do
     GenServer.call(locate(user), {:read, at})
   end
@@ -32,6 +36,11 @@ defmodule Twitter.User do
 
   def handle_cast({:post, message, at}, user) do
     timeline = Timeline.push(user.timeline, %Message{at: at, from: user.name, text: message})
+    user.followers |> Enum.each(&User.post(&1, user.name, message, at))
+    {:noreply, %User{user|timeline: timeline}}
+  end
+  def handle_cast({:post, from, message, at}, user) do
+    timeline = Timeline.push(user.timeline, %Message{at: at, from: from, text: message})
     {:noreply, %User{user|timeline: timeline}}
   end
   def handle_cast({:follow, who, at}, user) do

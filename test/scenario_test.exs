@@ -32,7 +32,7 @@ defmodule Twitter.ScenarioTest do
     > [14:03:00] Bob -> Damn! We lost!
     > [14:04:00] Bob -> Good game though.
     > [14:05:00] Charlie -> I'm in New York today! Anyone want to have a coffee?
-    > [14:05:01] Charlie follows Alice
+    > [14:05:00] Charlie follows Alice
     > [14:05:02] Charlie wall
     Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)
     Alice - I love the weather today (5 minutes ago)
@@ -42,6 +42,24 @@ defmodule Twitter.ScenarioTest do
     Bob - Good game though. (1 minute ago)
     Bob - Damn! We lost! (2 minutes ago)
     Alice - I love the weather today (5 minutes ago)
+    """
+  end
+
+
+  @tag :acceptance
+  test "push to followers" do
+    scenario """
+    > [14:03:00] Bob -> Damn! We lost!
+    > [14:04:00] Bob -> Good game though.
+    > [14:05:00] Charlie follows Bob
+    > [14:05:00] Charlie wall
+    Bob - Good game though. (1 minute ago)
+    Bob - Damn! We lost! (2 minutes ago)
+    > [14:05:00] Bob -> Going to sleep...
+    > [14:06:00] Charlie wall
+    Bob - Going to sleep... (1 minute ago)
+    Bob - Good game though. (2 minutes ago)
+    Bob - Damn! We lost! (3 minutes ago)
     """
   end
 
