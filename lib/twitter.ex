@@ -5,8 +5,8 @@ defmodule Twitter do
     run(command)
   end
 
-  def run({:post, at, from, message}), do: User.post(from, message, at)
-  def run({:read, at, from}), do: User.read(from, at)
-  def run({:follow, at, from, who}), do: User.follow(from, who, at)
-  def run({:wall, at, from}), do: User.wall(from, at)
+  def run({:post, at, user, message}), do: User.post(user, message, at)
+  def run({:read, at, user}), do: User.read(user, at)
+  def run({:follow, at, user, who}), do: User.follow(user, who, at)
+  def run({:wall, at, user}), do: User.wall(user, at)
 end

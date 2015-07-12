@@ -3,20 +3,20 @@ defmodule User do
 
   defstruct name: ""
 
-  def post(from, message, at \\ now) do
-    GenServer.cast(locate(from), {:post, message, at})
+  def post(user, message, at \\ now) do
+    GenServer.cast(locate(user), {:post, message, at})
   end
 
-  def read(from, at \\ now) do
-    GenServer.call(locate(from), {:read, at})
+  def read(user, at \\ now) do
+    GenServer.call(locate(user), {:read, at})
   end
 
-  def follow(from, who, at \\ now) do
-    GenServer.cast(locate(from), {:follow, who, at})
+  def follow(user, who, at \\ now) do
+    GenServer.cast(locate(user), {:follow, who, at})
   end
 
-  def wall(from, at \\ now) do
-    GenServer.call(locate(from), {:wall, at})
+  def wall(user, at \\ now) do
+    GenServer.call(locate(user), {:wall, at})
   end
 
   def init(name) do
