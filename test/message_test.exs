@@ -5,6 +5,8 @@ defmodule Twitter.MessageTest do
   test "format elapsed time" do
     {date, time} = :calendar.local_time
 
+    assert Message.format_elapsed_time({date, time}, {date, time}) == "just now"
+
     assert Message.format_elapsed_time({date, {0, 1, 0}}, {date, {0, 1, 1}}) == "1 second ago"
     assert Message.format_elapsed_time({date, {0, 0, 59}}, {date, {0, 1, 0}}) == "1 second ago"
     assert Message.format_elapsed_time({date, {0, 1, 0}}, {date, {0, 1, 42}}) == "42 seconds ago"

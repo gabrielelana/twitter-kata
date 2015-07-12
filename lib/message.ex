@@ -15,6 +15,7 @@ defmodule Twitter.Message do
     format_elapsed_time(:calendar.time_difference(at, now))
   end
 
+  defp format_elapsed_time({0, {0, 0, 0}}), do: "just now"
   defp format_elapsed_time({0, {0, 0, 1}}), do: "1 second ago"
   defp format_elapsed_time({0, {0, 1, _}}), do: "1 minute ago"
   defp format_elapsed_time({0, {1, _, _}}), do: "1 hour ago"
