@@ -45,15 +45,11 @@ defmodule Twitter.ScenarioTest do
     """
   end
 
-  defp twitter(input) do
-    IO.puts ""
-  end
-
 
   defp scenario(log) do
     given_input = extract_input_from(log)
     expected_output = extract_output_from(log)
-    captured_output = capture_io(given_input, fn -> twitter(given_input) end)
+    captured_output = capture_io(given_input, fn -> run(given_input) end)
     assert String.strip(captured_output) == expected_output
   end
 
@@ -72,5 +68,11 @@ defmodule Twitter.ScenarioTest do
     |> Enum.reject(&String.starts_with?(&1, ">"))
     |> Enum.reject(&(String.length(&1) == 0))
     |> Enum.join("\n")
+  end
+
+  defp run(input) do
+    input
+    |> String.split("\n")
+    |> Enum.each(&Twitter.run/1)
   end
 end
