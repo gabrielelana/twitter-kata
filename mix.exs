@@ -27,6 +27,6 @@ defmodule Twitter.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [{:paco, git: "https://github.com/gabrielelana/paco.git"}]
   end
 end
