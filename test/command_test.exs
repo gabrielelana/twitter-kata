@@ -18,8 +18,8 @@ defmodule Twitter.CommandTest do
   end
 
   test "command with time" do
-    {today, now} = :calendar.local_time
-    assert {:post, {today, {14, 0, 0}}, _, _} = Command.parse("[14:00:00] XXX -> YYY", format: :flat)
-    assert {:read, {today, {14, 9, 2}}, _} = Command.parse("[14:09:02] XXX", format: :flat)
+    {today, _} = :calendar.local_time
+    assert Command.parse("[14:00:00] XXX -> YYY", format: :flat) == {:post, {today, {14, 0, 0}}, "XXX", "YYY"}
+    assert Command.parse("[14:09:02] XXX -> YYY", format: :flat) == {:post, {today, {14, 9, 2}}, "XXX", "YYY"}
   end
 end
