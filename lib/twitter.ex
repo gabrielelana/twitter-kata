@@ -1,4 +1,5 @@
 defmodule Twitter do
+  alias Twitter.User
 
   def run(line) when is_binary(line) do
     {:ok, command} = Command.parse(line)

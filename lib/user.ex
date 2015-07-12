@@ -1,4 +1,5 @@
-defmodule User do
+defmodule Twitter.User do
+  alias Twitter.User
   use GenServer
 
   defstruct name: ""
