@@ -35,6 +35,18 @@ defmodule Twitter.TimelineTest do
     refute message_from_bob in Timeline.from(timeline, "Alice")
   end
 
+  test "filter messages from the future" do
+    {date, _} = :calendar.local_time
+    message_from_the_past = %Message{at: {date, {10, 0, 0}}, from: "Alice", text: "Busy at work"}
+    message_from_the_future = %Message{at: {date, {11, 0, 0}}, from: "Alice", text: "Time flies!"}
+    timeline = Timeline.new
+               |> Timeline.push(message_from_the_past)
+               |> Timeline.push(message_from_the_future)
+
+    assert message_from_the_past in Timeline.wall(timeline, {date, {10, 1, 0}})
+    refute message_from_the_future in Timeline.wall(timeline, {date, {10, 1, 0}})
+  end
+
   test "messages are ordered in time, newest first" do
     {date, _} = :calendar.local_time
     first_message = %Message{at: {date, {14,0,0}}, from: "Alice", text: "Busy at work"}
