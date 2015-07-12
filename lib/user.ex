@@ -18,6 +18,10 @@ defmodule Twitter.User do
     GenServer.cast(locate(user), {:follow, who, at})
   end
 
+  def followed_by(user, who, at \\ now) do
+    GenServer.cast(locate(user), {:followed_by, who, at})
+  end
+
   def wall(user, at \\ now) do
     GenServer.call(locate(user), {:wall, at})
   end
@@ -30,15 +34,19 @@ defmodule Twitter.User do
     timeline = Timeline.push(user.timeline, %Message{at: at, from: user.name, text: message})
     {:noreply, %User{user|timeline: timeline}}
   end
-  def handle_cast({:follow, _who, _at}, user) do
-    {:noreply, user}
+  def handle_cast({:follow, who, at}, user) do
+    timeline = User.read(who, at) |> Enum.reduce(user.timeline, &Timeline.push(&2, &1))
+    {:noreply, %User{user|timeline: timeline, following: [who|user.following]}}
+  end
+  def handle_cast({:followed_by, who, _at}, user) do
+    {:noreply, %User{user|followers: [who|user.followers]}}
   end
 
   def handle_call({:read, at}, _, user) do
     {:reply, Timeline.from(user.timeline, user.name, at), user}
   end
-  def handle_call({:wall, _at}, _, user) do
-    {:reply, :wall, user}
+  def handle_call({:wall, at}, _, user) do
+    {:reply, Timeline.wall(user.timeline, at), user}
   end
 
   defp locate(pid) when is_pid(pid), do: pid

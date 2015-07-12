@@ -36,9 +36,9 @@ defmodule Twitter.ScenarioTest do
     > [14:05:02] Charlie wall
     Charlie - I'm in New York today! Anyone want to have a coffee? (2 seconds ago)
     Alice - I love the weather today (5 minutes ago)
-    > [14:05:16] Charlie follows Bob
-    > [14:05:17] Charlie wall
-    Charlie - I'm in New York today! Anyone wants to have a coffee? (15 seconds ago)
+    > [14:05:15] Charlie follows Bob
+    > [14:05:15] Charlie wall
+    Charlie - I'm in New York today! Anyone want to have a coffee? (15 seconds ago)
     Bob - Good game though. (1 minute ago)
     Bob - Damn! We lost! (2 minutes ago)
     Alice - I love the weather today (5 minutes ago)

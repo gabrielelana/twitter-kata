@@ -10,11 +10,18 @@ defmodule Twitter do
   def run({:post, at, user, message}) do
     User.post(user, message, at)
   end
-
   def run({:read, at, user}) do
-    User.read(user, at) |> Enum.map(&Message.format(&1, at)) |> Enum.each(&IO.puts/1)
+    User.read(user, at)
+    |> Enum.map(&Message.format(&1, at))
+    |> Enum.each(&IO.puts/1)
   end
-
-  def run({:follow, at, user, who}), do: User.follow(user, who, at)
-  def run({:wall, at, user}), do: User.wall(user, at)
+  def run({:follow, at, user, who}) do
+    User.follow(user, who, at)
+    User.followed_by(who, user, at)
+  end
+  def run({:wall, at, user}) do
+    User.wall(user, at)
+    |> Enum.map(&Message.format_for_wall(&1, at))
+    |> Enum.each(&IO.puts/1)
+  end
 end
