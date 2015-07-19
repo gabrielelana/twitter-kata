@@ -48,7 +48,7 @@ defmodule Twitter.TimelineTest do
   end
 
   test "messages are ordered in time, newest first" do
-    {date, _} = :calendar.local_time
+    {date, _} = yesterday
     first_message = %Message{at: {date, {14,0,0}}, from: "Alice", text: "Busy at work"}
     second_message = %Message{at: {date, {14,0,1}}, from: "Alice", text: "Still busy at work"}
     third_message = %Message{at: {date, {14,1,0}}, from: "Alice", text: "Going home"}
@@ -58,5 +58,12 @@ defmodule Twitter.TimelineTest do
                |> Timeline.push(second_message)
 
     assert Timeline.wall(timeline) == [third_message, second_message, first_message]
+  end
+
+  defp yesterday do
+    {date, time} = :calendar.local_time
+    days = :calendar.date_to_gregorian_days(date)
+    date = :calendar.gregorian_days_to_date(days - 1)
+    {date, time}
   end
 end
