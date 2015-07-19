@@ -2,9 +2,10 @@ defmodule Twitter.TimelineTest do
   use ExUnit.Case
   alias Twitter.Timeline
   alias Twitter.Message
+  alias Twitter.Clock
 
   test "push single message" do
-    now = :calendar.local_time
+    now = Clock.now
     message = %Message{at: now, from: "Alice", text: "Busy at work"}
     timeline = Timeline.new |> Timeline.push(message)
 
@@ -12,7 +13,7 @@ defmodule Twitter.TimelineTest do
   end
 
   test "push messages from multile users" do
-    now = :calendar.local_time
+    now = Clock.now
     message_from_alice = %Message{at: now, from: "Alice", text: "Busy at work"}
     message_from_bob = %Message{at: now, from: "Bob", text: "Time flies!"}
     timeline = Timeline.new
@@ -24,7 +25,7 @@ defmodule Twitter.TimelineTest do
   end
 
   test "filter messages from a user" do
-    now = :calendar.local_time
+    now = Clock.now
     message_from_alice = %Message{at: now, from: "Alice", text: "Busy at work"}
     message_from_bob = %Message{at: now, from: "Bob", text: "Time flies!"}
     timeline = Timeline.new
@@ -36,7 +37,7 @@ defmodule Twitter.TimelineTest do
   end
 
   test "filter messages from the future" do
-    {date, _} = :calendar.local_time
+    {date, _} = Clock.now
     message_from_the_past = %Message{at: {date, {10, 0, 0}}, from: "Alice", text: "Busy at work"}
     message_from_the_future = %Message{at: {date, {11, 0, 0}}, from: "Alice", text: "Time flies!"}
     timeline = Timeline.new
@@ -48,7 +49,7 @@ defmodule Twitter.TimelineTest do
   end
 
   test "messages are ordered in time, newest first" do
-    {date, _} = yesterday
+    {date, _} = Clock.yesterday
     first_message = %Message{at: {date, {14,0,0}}, from: "Alice", text: "Busy at work"}
     second_message = %Message{at: {date, {14,0,1}}, from: "Alice", text: "Still busy at work"}
     third_message = %Message{at: {date, {14,1,0}}, from: "Alice", text: "Going home"}
@@ -58,12 +59,5 @@ defmodule Twitter.TimelineTest do
                |> Timeline.push(second_message)
 
     assert Timeline.wall(timeline) == [third_message, second_message, first_message]
-  end
-
-  defp yesterday do
-    {date, time} = :calendar.local_time
-    days = :calendar.date_to_gregorian_days(date)
-    date = :calendar.gregorian_days_to_date(days - 1)
-    {date, time}
   end
 end

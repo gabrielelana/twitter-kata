@@ -1,13 +1,14 @@
 defmodule Twitter.Timeline do
   alias Twitter.Message
+  alias Twitter.Clock
 
   def new, do: []
 
-  def wall(timeline, at \\ now) do
+  def wall(timeline, at \\ Clock.now) do
     timeline |> Enum.filter(&(&1.at <= at))
   end
 
-  def from(timeline, user, at \\ now) do
+  def from(timeline, user, at \\ Clock.now) do
     wall(timeline, at) |> Enum.filter(&from?(&1, user))
   end
 
@@ -17,6 +18,4 @@ defmodule Twitter.Timeline do
 
   defp from?(%Message{from: user}, user), do: true
   defp from?(_, _),                       do: false
-
-  defp now, do: :calendar.local_time
 end

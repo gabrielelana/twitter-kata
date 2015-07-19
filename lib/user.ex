@@ -2,11 +2,12 @@ defmodule Twitter.User do
   alias Twitter.User
   alias Twitter.Timeline
   alias Twitter.Message
+  alias Twitter.Clock
   use GenServer
 
   defstruct name: "", timeline: nil, followers: [], following: []
 
-  def post(user, message, at \\ now) do
+  def post(user, message, at \\ Clock.now) do
     GenServer.cast(locate(user), {:post, message, at})
   end
 
@@ -14,19 +15,19 @@ defmodule Twitter.User do
     GenServer.cast(locate(user), {:post, from, message, at})
   end
 
-  def read(user, at \\ now) do
+  def read(user, at \\ Clock.now) do
     GenServer.call(locate(user), {:read, at})
   end
 
-  def follow(user, who, at \\ now) do
+  def follow(user, who, at \\ Clock.now) do
     GenServer.cast(locate(user), {:follow, who, at})
   end
 
-  def followed_by(user, who, at \\ now) do
+  def followed_by(user, who, at \\ Clock.now) do
     GenServer.cast(locate(user), {:followed_by, who, at})
   end
 
-  def wall(user, at \\ now) do
+  def wall(user, at \\ Clock.now) do
     GenServer.call(locate(user), {:wall, at})
   end
 
@@ -73,6 +74,4 @@ defmodule Twitter.User do
   defp start_link(name, register_name) do
     GenServer.start_link(User, name, name: register_name)
   end
-
-  defp now, do: :calendar.local_time
 end

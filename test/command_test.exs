@@ -1,6 +1,7 @@
 defmodule Twitter.CommandTest do
   use ExUnit.Case
   alias Twitter.Command
+  alias Twitter.Clock
 
   test "parse post command" do
     assert {:post, _, "Alice", "Busy at work"} = Command.parse("Alice -> Busy at work", format: :flat)
@@ -19,7 +20,7 @@ defmodule Twitter.CommandTest do
   end
 
   test "command with time" do
-    {today, _} = :calendar.local_time
+    {today, _} = Clock.now
     assert Command.parse("[14:00:00] XXX -> YYY", format: :flat) == {:post, {today, {14, 0, 0}}, "XXX", "YYY"}
     assert Command.parse("[14:09:02] XXX -> YYY", format: :flat) == {:post, {today, {14, 9, 2}}, "XXX", "YYY"}
   end
