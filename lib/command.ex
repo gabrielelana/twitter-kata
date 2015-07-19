@@ -7,7 +7,7 @@ defmodule Command do
     {number, skip(lex(":")), number, skip(lex(":")), number}
     |> surrounded_by("[", "]")
     |> bind(fn({h, m, s}) ->
-              {date, time} = :calendar.local_time
+              {date, _} = :calendar.local_time
               {date, {h, m, s}}
             end)
   end
