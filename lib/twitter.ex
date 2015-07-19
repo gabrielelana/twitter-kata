@@ -2,6 +2,27 @@ defmodule Twitter do
   alias Twitter.User
   alias Twitter.Message
 
+  def main(_args) do
+    explain_how_to_leave
+    ask_for_command("> ")
+  end
+
+  defp explain_how_to_leave do
+    IO.puts("Type Ctrl-D to leave")
+  end
+
+  defp ask_for_command(prompt) do
+    case IO.gets(prompt) do
+      {:error, reason} ->
+        IO.puts("! #{reason}")
+      :eof ->
+        IO.puts("Bye")
+      line ->
+        run(line)
+        ask_for_command(prompt)
+    end
+  end
+
   def run(line) when is_binary(line) do
     {:ok, command} = Command.parse(line)
     run(command)
