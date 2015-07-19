@@ -2,6 +2,8 @@ defmodule Twitter.ClockTest do
   use ExUnit.Case
   alias Twitter.Clock
 
+  doctest Clock
+
   test "format elapsed time" do
     {date, time} = Clock.now
 

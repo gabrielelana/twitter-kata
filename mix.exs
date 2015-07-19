@@ -8,6 +8,7 @@ defmodule Twitter.Mixfile do
      escript: [main_module: Twitter],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     dialyzer: [plt_add_deps: true],
      aliases: aliases,
      deps: deps]
   end
