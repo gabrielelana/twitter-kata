@@ -1,4 +1,5 @@
 # Twitter-Kata
+[![Build Status](https://travis-ci.org/gabrielelana/twitter-kata.svg?branch=master)](https://travis-ci.org/gabrielelana/twitter-kata)
 
 ### Twitter like console-based application Kata
 
