@@ -1,6 +1,7 @@
 defmodule Twitter do
   alias Twitter.User
   alias Twitter.Message
+  alias Twitter.Command
 
   def main(_args) do
     explain_how_to_leave

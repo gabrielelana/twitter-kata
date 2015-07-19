@@ -1,5 +1,6 @@
 defmodule Twitter.CommandTest do
   use ExUnit.Case
+  alias Twitter.Command
 
   test "parse post command" do
     assert {:post, _, "Alice", "Busy at work"} = Command.parse("Alice -> Busy at work", format: :flat)

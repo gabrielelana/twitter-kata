@@ -1,4 +1,4 @@
-defmodule Command do
+defmodule Twitter.Command do
   use Paco
 
   parser number, do: while(Paco.ASCII.digit) |> bind(&String.to_integer/1)
