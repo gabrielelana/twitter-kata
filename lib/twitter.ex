@@ -45,8 +45,10 @@ defmodule Twitter do
   """
   @spec run(String.t) :: :ok
   def run(line) do
-    {:ok, command} = Command.parse(line)
-    do_run(command)
+    case Command.parse(line) do
+      {:ok, command} -> do_run(command)
+      {:error, reason} -> IO.puts("! #{reason}")
+    end
   end
 
   defp do_run({:post, at, user, message}) do
