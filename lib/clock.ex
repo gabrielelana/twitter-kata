@@ -23,4 +23,25 @@ defmodule Twitter.Clock do
   defp format_elapsed_time({0, {n, _, _}}), do: "#{n} hours ago"
   defp format_elapsed_time({1, _}), do: "1 day ago"
   defp format_elapsed_time({n, _}), do: "#{n} days ago"
+
+
+  def at({h, m, s}) do
+    {date, _} = now
+    {date, {h, m, s}}
+  end
+
+  def at(clock, {:after, n, units}) do
+    :calendar.gregorian_seconds_to_datetime(seconds_in(clock) + seconds_in(n, units))
+  end
+
+  defp seconds_in(datetime), do: :calendar.datetime_to_gregorian_seconds(datetime)
+
+  defp seconds_in(n, :second), do: n
+  defp seconds_in(n, :secondss), do: n
+  defp seconds_in(n, :minute), do: n * 60
+  defp seconds_in(n, :minutes), do: n * 60
+  defp seconds_in(n, :hour), do: n * 3600
+  defp seconds_in(n, :hours), do: n * 3600
+  defp seconds_in(n, :day), do: n * 86400
+  defp seconds_in(n, :days), do: n * 86400
 end

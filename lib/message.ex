@@ -2,7 +2,7 @@ defmodule Twitter.Message do
   alias Twitter.Message
   alias Twitter.Clock
 
-  defstruct at: nil, from: "", text: ""
+  defstruct at: Clock.now, from: "", text: ""
 
   def format_for_wall(%Message{from: from} = message, now) do
     "#{from} - #{format(message, now)}"
