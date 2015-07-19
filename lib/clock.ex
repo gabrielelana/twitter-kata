@@ -33,6 +33,9 @@ defmodule Twitter.Clock do
   def at(clock, {:after, n, units}) do
     :calendar.gregorian_seconds_to_datetime(seconds_in(clock) + seconds_in(n, units))
   end
+  def at(clock, {:before, n, units}) do
+    :calendar.gregorian_seconds_to_datetime(seconds_in(clock) - seconds_in(n, units))
+  end
 
   defp seconds_in(datetime), do: :calendar.datetime_to_gregorian_seconds(datetime)
 
