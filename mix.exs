@@ -8,6 +8,7 @@ defmodule Twitter.Mixfile do
      escript: [main_module: Twitter],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     aliases: aliases,
      deps: deps]
   end
 
@@ -29,5 +30,9 @@ defmodule Twitter.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{:paco, git: "https://github.com/gabrielelana/paco.git"}]
+  end
+
+  defp aliases do
+    [start: ["compile", &Twitter.main/1]]
   end
 end
